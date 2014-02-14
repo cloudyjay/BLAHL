@@ -1,6 +1,6 @@
-0;136;0cCXX = g++
+CXX = g++
 CXXFLAGS = -g -Wall -MMD
-EXEC = cc3k					# change this
+EXEC = cc3k							# change this
 SOURCES = ${wildcard *.cc}			# possibly this too
 OBJECTS = ${SOURCES:.cc=.o}
 DEPENDS = ${OBJECTS:.o=.d}
