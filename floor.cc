@@ -1,5 +1,6 @@
 #include "floor.h"
 #include <fstream>
+#include <iostream>
 using namespace std;
 
 Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(height) {
@@ -65,3 +66,11 @@ void Floor::addNeighbors(int i, int j) {
 							cells[i][j].attachNeighbor(0);
 }
 
+void Floor::printFloor() {
+	for(int i=0; i<HEIGHT; i++) {
+		for(int j=0; j<WIDTH; j++) {
+			cells[i][j].printCell();
+		}
+		cout << endl;
+	}
+}

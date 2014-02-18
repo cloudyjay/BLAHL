@@ -10,6 +10,10 @@
 //		Enemies
 //		Golds
 //		Potions 
+// it has:
+//		Player
+// its responsibility is to manage each of its components
+//  and interact in each turn
 class Floor {
 	Cell **cells;
 	const int WIDTH;
@@ -21,6 +25,7 @@ class Floor {
 public:
 	Floor(std::string map_name, int width=79, int height=25);
 	~Floor();
+	void printFloor();
 };
 
 #endif

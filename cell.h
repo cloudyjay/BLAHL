@@ -32,6 +32,7 @@ public:
 	// POST: one of neighbors get filled
 	void attachNeighbor(Cell *neighbor);
 	void setType(char c);
+	void printCell();
 };
 
 #endif

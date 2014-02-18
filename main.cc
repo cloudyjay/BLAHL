@@ -3,11 +3,9 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	if(argc == 1)	Interface main_game("map/default");
-	else 			Interface main_game(argv[1]);
+	string map = (argc == 2)? argv[1] : "map/default.map";
+	Interface main_game(map);
 
-	while(!main_game.isEnd()) {
-	
-	}
+	main_game.playTurn();
 }
 

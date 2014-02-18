@@ -1,4 +1,5 @@
 #include "cell.h"
+#include <iostream>
 using namespace std;
 
 Cell::Cell() : type(' '), num_neighbors(0) {
@@ -18,4 +19,8 @@ void Cell::attachNeighbor(Cell *neighbor) {
 
 void Cell::setType(char c) {
 	type = c;
+}
+
+void Cell::printCell() {
+	cout << type;
 }
