@@ -1,11 +1,11 @@
 #include "interface.h"
+#include <iostream>
 using namespace std;
 
 /******************* PRIVATE ************************/
-void Interface::playTurn() {
-
-	
-	game_floors[cur_lvl]->printFloor();
+bool Interface::isDirection(string cmd) {
+	return (cmd == "no" || cmd == "so" || cmd == "ea" || cmd == "we" ||
+			cmd == "ne" || cmd == "nw" || cmd == "se" || cmd == "sw");
 }
 
 /******************* PUBLIC ************************/
@@ -15,6 +15,8 @@ Interface::Interface(string map_name, int max_lvl) : MAX_LVL(max_lvl), cur_lvl(0
 	for(int i=0; i < MAX_LVL; i++) {
 		game_floors[i] = new Floor(MAP_NAME);
 	}
+
+	// 
 }
 
 Interface::~Interface() {
@@ -32,3 +34,39 @@ bool Interface::isEnd() {
 		return false;
 	}
 }
+
+void Interface::playTurn() {
+	bool valid_cmd = false;
+	while(!vaild_cmd) {
+		string cmd;
+		cout << "Type your next move: ";
+		cin >> cmd;
+		if(cmd[0] == 'u') {				// use Potion
+			cout << "POTION" << endl;
+			valid_cmd = true;
+		}
+		else if(cmd[0] == 'a') {		// attack Enemy
+			cout << "ENEMY" << endl;
+			valid_cmd = true;
+		}
+		else if(isDirection(cmd)) {		// move Player
+			cout << "PLAYER" << endl;
+			valid_cmd = true;
+		}
+		else if(cmd[0] == 'r') {		// restart
+			cout << "RESTART" << endl;
+			valid_cmd = true;
+		}
+		else if(cmd[0] == 'q') {		// quit
+			cout << "QUIT" << endl;
+			valid_cmd = true;
+		}	
+		else {
+			cout << "INVALID" << endl;
+		} 
+	}
+
+	
+	game_floors[cur_lvl]->printFloor();
+}
+
