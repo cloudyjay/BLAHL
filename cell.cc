@@ -21,13 +21,28 @@ void Cell::attachNeighbor(Cell *neighbor) {
 void Cell::setType(char c) {
 	type = c;
 }
+void Cell::setPiece(GamePiece *piece) {
+	this->piece = piece;
+}
+
+void Cell::releasePiece() {
+	piece = 0;
+}
 
 void Cell::printCell() {
-	cout << type;
+	if(piece != 0) {
+		piece->printSelf();
+	}
+	else {
+		cout << type;	
+	}
+	
 }
 
 int Cell::canMove() {
-	return 	(type == '.')? 1 :
+	return 	(piece != 0 && piece->isPickable())? 4 :
+			(piece != 0)? 0 :
+			(type == '.')? 1 :
 			(type == '+' || type == '#')? 2 :
 			(type == '/')? 3 : 0;
 }

@@ -4,6 +4,7 @@
 
 #include <string>
 #include "floor.h"
+#include "character/player/player.h"
 
 // Interface class is reponsible for:
 //		Reading user input
@@ -14,7 +15,7 @@ class Interface {
 	int cur_lvl;
 	std::string MAP_NAME;
 	Floor **game_floors;
-	Player player;
+	Player *player;
 	// KeyboardIn key_in;
 	// ScreenOut scn_out;
 	bool isDirection(std::string cmd);

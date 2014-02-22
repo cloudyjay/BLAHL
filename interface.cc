@@ -1,5 +1,7 @@
 #include "interface.h"
 #include <iostream>
+#include "character/player/playerfactory.h"
+
 using namespace std;
 
 /******************* PRIVATE ************************/
@@ -15,8 +17,12 @@ Interface::Interface(string map_name, int max_lvl) : MAX_LVL(max_lvl), cur_lvl(0
 	for(int i=0; i < MAX_LVL; i++) {
 		game_floors[i] = new Floor(MAP_NAME);
 	}
+	// create player
+	PlayerFactory player_factory;
+	player = player_factory.generatePlayer('h');
 
-	// 
+	// initialize current floor
+	game_floors[cur_lvl]->init(player);
 }
 
 Interface::~Interface() {
@@ -37,7 +43,7 @@ bool Interface::isEnd() {
 
 void Interface::playTurn() {
 	bool valid_cmd = false;
-	while(!vaild_cmd) {
+	while(!valid_cmd) {
 		string cmd;
 		cout << "Type your next move: ";
 		cin >> cmd;
@@ -50,7 +56,7 @@ void Interface::playTurn() {
 			valid_cmd = true;
 		}
 		else if(isDirection(cmd)) {		// move Player
-			cout << "PLAYER" << endl;
+			floor[cur_lvl]->movePlayer(cmd);
 			valid_cmd = true;
 		}
 		else if(cmd[0] == 'r') {		// restart

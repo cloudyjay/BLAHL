@@ -3,7 +3,7 @@
 
 #include <string>
 #include "cell.h"
-
+#include "character/player/player.h"
 // Floor class is an observer of its members
 // it owns:
 //		X x Y Cells
@@ -18,6 +18,7 @@ class Floor {
 	Cell **cells;
 	const int WIDTH;
 	const int HEIGHT;
+	Player *player;
 
 	bool onFloor(int i, int j);
 	void addNeighbors(int i, int j);
@@ -25,6 +26,8 @@ class Floor {
 public:
 	Floor(std::string map_name, int width=79, int height=25);
 	~Floor();
+	void init(Player *player);
+	void movePlayer(std::string cmd);
 	void printFloor();
 };
 

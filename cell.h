@@ -1,7 +1,7 @@
 #ifndef __CELL_H__
 #define __CELL_H__
 
-class GamePiece;
+#include "gamepiece.h"
 // Cell class is one block of Floor class
 // It's an observer to its neigboring cells
 // It might have a pointer to an object
@@ -34,12 +34,15 @@ public:
 	// POST: one of neighbors get filled
 	void attachNeighbor(Cell *neighbor);
 	void setType(char c);
+	void setPiece(GamePiece *piece);
+	void releasePiece();
 	void printCell();
 	// PRE: true
 	// POST:	0 - can't move
 	//			1 - can move
 	//			2 - door OR passage
 	//			3 - stairs
+	//			4 - gold
 	int canMove();
 };
 
