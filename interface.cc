@@ -56,7 +56,7 @@ void Interface::playTurn() {
 			valid_cmd = true;
 		}
 		else if(isDirection(cmd)) {		// move Player
-			floor[cur_lvl]->movePlayer(cmd);
+			game_floors[cur_lvl]->movePlayer(cmd);
 			valid_cmd = true;
 		}
 		else if(cmd[0] == 'r') {		// restart

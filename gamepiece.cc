@@ -5,8 +5,8 @@ using namespace std;
 GamePiece::GamePiece(char symbol) : symbol(symbol), x(0), y(0) {}
 
 void GamePiece::move(int x, int y) {
-	this->x += x;
-	this->y += y;
+	this->x = x;
+	this->y = y;
 }
 
 void GamePiece::printSelf() {

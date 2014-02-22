@@ -75,11 +75,54 @@ void Floor::init(Player *player) {
 		x = rand() % 77 + 1;	// 1 ~ 77
 		y = rand() % 23 + 1;	// 1 ~ 23
 	} while(cells[y][x].canMove() != 1);
-	cells[y][x].setPiece(player);
+	player->move(x, y);
+	cells[player->getY()][player->getX()].setPiece(player);
 }
 
-void movePlayer(string cmd) {
+void Floor::movePlayer(string cmd) {
+	int x = player->getX();
+	int y = player->getY();
+	if(cmd == "no") {
+		x += 0;		
+		y += -1;
+	} else if(cmd == "ne") {
+		x += 1;		
+		y += -1;
+	} else if(cmd == "ea") {
+		x += 1;		
+		y += 0;
+	} else if(cmd == "se") {
+		x += 1;		
+		y += 1;
+	} else if(cmd == "so") {
+		x += 0;		
+		y += 1;
+	} else if(cmd == "sw") {
+		x += -1;		
+		y += 1;
+	} else if(cmd == "we") {
+		x += -1;		
+		y += 0;
+	} else {
+		x += -1;		
+		y += -1;
+	}
 	
+	// check if it's movable cell
+	if(1 <= cells[y][x].canMove() && cells[y][x].canMove() <= 4) {		
+		if(cells[y][x].canMove() == 4) {	// golds
+			
+		}
+		cells[player->getY()][player->getX()].releasePiece();
+		player->move(x, y);
+		cells[player->getY()][player->getX()].setPiece(player);
+		
+		if(cells[y][x].canMove() == 3) {		// starirs goup the floor	
+	
+		}	
+	} else {														// cannot move
+		cout << "Can't move!" << endl;
+	}
 }
 
 void Floor::printFloor() {
