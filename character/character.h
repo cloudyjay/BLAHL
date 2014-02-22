@@ -9,6 +9,9 @@ class Character: public GamePiece {
 	
 public:
 	Character(char type, int hp, int atk, int def);
+	void printHealth();
+	void printAttack();
+	void printDefence();
 	virtual bool isAttackable();
 	virtual bool isUsable();
 	virtual bool isPickable();

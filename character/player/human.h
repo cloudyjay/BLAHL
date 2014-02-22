@@ -8,5 +8,6 @@ class Human: public Player {
 public:
 	Human();
 	~Human();
+	void printRace();
 };
 #endif

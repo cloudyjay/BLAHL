@@ -4,7 +4,7 @@
 #include <cstdlib>
 using namespace std;
 
-Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(height) {
+Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(height), MAP_NAME(map_name), player(0) {
 	// allocate cells
 	cells = new Cell*[HEIGHT];
 	for(int i=0; i<HEIGHT; i++) {
@@ -18,7 +18,7 @@ Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(heig
 	}
 	// build cells using map provided
 	ifstream map;
-	map.open(map_name.c_str());
+	map.open(MAP_NAME.c_str());
 	for(int i=0; i<HEIGHT; i++) {
 		string hor_line;
 		getline(map, hor_line);
@@ -68,8 +68,9 @@ void Floor::addNeighbors(int i, int j) {
 }
 
 void Floor::init(Player *player) {
-	int x, y;
+
 	// set player and locate it randomly
+	int x, y;
 	this->player = player;
 	do {
 		x = rand() % 77 + 1;	// 1 ~ 77
@@ -117,7 +118,7 @@ void Floor::movePlayer(string cmd) {
 		player->move(x, y);
 		cells[player->getY()][player->getX()].setPiece(player);
 		
-		if(cells[y][x].canMove() == 3) {		// starirs goup the floor	
+		if(cells[y][x].canMove() == 3) {	// starirs goup the floor	
 	
 		}	
 	} else {														// cannot move

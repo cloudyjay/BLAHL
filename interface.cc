@@ -9,13 +9,24 @@ bool Interface::isDirection(string cmd) {
 	return (cmd == "no" || cmd == "so" || cmd == "ea" || cmd == "we" ||
 			cmd == "ne" || cmd == "nw" || cmd == "se" || cmd == "sw");
 }
+void Interface::displayScreen() {
+	// display on screen
+	game_floors[cur_lvl]->printFloor();
+	cout << "Race: ";	player->printRace();
+	cout << "  Gold: ";	player->printGold();
+	cout << "                     Floor " << cur_lvl+1 << endl;
+	cout << "HP: ";		player->printHealth();	cout << endl;
+	cout << "Atk: ";	player->printAttack();	cout << endl;
+	cout << "Def: ";	player->printDefence();	cout << endl;
+	cout << "Action: " << endl;
+}
 
 /******************* PUBLIC ************************/
-Interface::Interface(string map_name, int max_lvl) : MAX_LVL(max_lvl), cur_lvl(0), MAP_NAME(map_name) {
+Interface::Interface(string map_name, int max_lvl) : MAX_LVL(max_lvl), cur_lvl(0) {
 	// allocate & build floors
 	game_floors = new Floor*[MAX_LVL];
 	for(int i=0; i < MAX_LVL; i++) {
-		game_floors[i] = new Floor(MAP_NAME);
+		game_floors[i] = new Floor(map_name);
 	}
 	// create player
 	PlayerFactory player_factory;
@@ -23,6 +34,9 @@ Interface::Interface(string map_name, int max_lvl) : MAX_LVL(max_lvl), cur_lvl(0
 
 	// initialize current floor
 	game_floors[cur_lvl]->init(player);
+
+	// print
+	displayScreen();
 }
 
 Interface::~Interface() {
@@ -72,7 +86,6 @@ void Interface::playTurn() {
 		} 
 	}
 
-	
-	game_floors[cur_lvl]->printFloor();
+	displayScreen();
 }
 

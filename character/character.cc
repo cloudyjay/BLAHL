@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "character.h"
 using namespace std;
 
@@ -6,6 +7,18 @@ Character::Character(char type, int hp, int atk, int def): GamePiece(type), hp(h
 }
 
 Character::~Character() {
+}
+
+void Character::printHealth() {
+	cout << hp;
+}
+
+void Character::printAttack() {
+	cout << atk;
+}
+
+void Character::printDefence() {
+	cout << def;
 }
 
 void Character::attack(Character &target) {

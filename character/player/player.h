@@ -8,6 +8,8 @@ class Player: public Character {
 public:
 	Player(int hp, int atk, int def);
 	virtual	~Player()=0;
+	virtual void printRace()=0;
+	void printGold();
 };
 
 #endif

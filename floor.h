@@ -18,6 +18,7 @@ class Floor {
 	Cell **cells;
 	const int WIDTH;
 	const int HEIGHT;
+	const std::string MAP_NAME;
 	Player *player;
 
 	bool onFloor(int i, int j);

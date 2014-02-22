@@ -13,12 +13,12 @@
 class Interface {
 	const int MAX_LVL;
 	int cur_lvl;
-	std::string MAP_NAME;
 	Floor **game_floors;
 	Player *player;
 	// KeyboardIn key_in;
 	// ScreenOut scn_out;
 	bool isDirection(std::string cmd);
+	void displayScreen();
 public:
 	Interface(std::string map_name, int max_lvl=8);
 	~Interface();
