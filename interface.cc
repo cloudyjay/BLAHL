@@ -70,7 +70,16 @@ void Interface::playTurn() {
 			valid_cmd = true;
 		}
 		else if(isDirection(cmd)) {		// move Player
-			game_floors[cur_lvl]->movePlayer(cmd);
+			int go_up = game_floors[cur_lvl]->movePlayer(cmd);
+			if(go_up) {
+				cur_lvl++;
+				if(cur_lvl < MAX_LVL) {	// still in the game
+					game_floors[cur_lvl]->init(player);	
+				}
+				else {	// game ends
+					return;
+				}		
+			}
 			valid_cmd = true;
 		}
 		else if(cmd[0] == 'r') {		// restart

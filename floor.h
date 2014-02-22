@@ -19,6 +19,7 @@ class Floor {
 	const int WIDTH;
 	const int HEIGHT;
 	const std::string MAP_NAME;
+	const static std::string DEFAULT_MAP_NAME;
 	Player *player;
 
 	bool onFloor(int i, int j);
@@ -28,7 +29,8 @@ public:
 	Floor(std::string map_name, int width=79, int height=25);
 	~Floor();
 	void init(Player *player);
-	void movePlayer(std::string cmd);
+	// return true if it hits a stairs
+	bool movePlayer(std::string cmd);
 	void printFloor();
 };
 

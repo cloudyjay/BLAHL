@@ -4,6 +4,8 @@
 #include <cstdlib>
 using namespace std;
 
+const string Floor::DEFAULT_MAP_NAME = "map/default.map";
+
 Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(height), MAP_NAME(map_name), player(0) {
 	// allocate cells
 	cells = new Cell*[HEIGHT];
@@ -68,19 +70,30 @@ void Floor::addNeighbors(int i, int j) {
 }
 
 void Floor::init(Player *player) {
-
-	// set player and locate it randomly
-	int x, y;
-	this->player = player;
-	do {
-		x = rand() % 77 + 1;	// 1 ~ 77
-		y = rand() % 23 + 1;	// 1 ~ 23
-	} while(cells[y][x].canMove() != 1);
-	player->move(x, y);
-	cells[player->getY()][player->getX()].setPiece(player);
+	if(MAP_NAME != DEFAULT_MAP_NAME) {
+			
+	} else {
+		int x, y;
+		// spawn stairs
+		do {
+			x = rand() % 77 + 1;	// 1 ~ 77
+			y = rand() % 23 + 1;	// 1 ~ 23
+		} while(cells[y][x].canMove() != 1);
+		cells[y][x].setType('/');
+	
+		// set player and locate it randomly
+		
+		this->player = player;
+		do {
+			x = rand() % 77 + 1;	// 1 ~ 77
+			y = rand() % 23 + 1;	// 1 ~ 23
+		} while(cells[y][x].canMove() != 1);
+		player->move(x, y);
+		cells[player->getY()][player->getX()].setPiece(player);
+	}
 }
 
-void Floor::movePlayer(string cmd) {
+bool Floor::movePlayer(string cmd) {
 	int x = player->getX();
 	int y = player->getY();
 	if(cmd == "no") {
@@ -111,6 +124,9 @@ void Floor::movePlayer(string cmd) {
 	
 	// check if it's movable cell
 	if(1 <= cells[y][x].canMove() && cells[y][x].canMove() <= 4) {		
+		if(cells[y][x].canMove() == 3) {	// starirs go up the floor
+			return true;
+		}
 		if(cells[y][x].canMove() == 4) {	// golds
 			
 		}
@@ -118,12 +134,11 @@ void Floor::movePlayer(string cmd) {
 		player->move(x, y);
 		cells[player->getY()][player->getX()].setPiece(player);
 		
-		if(cells[y][x].canMove() == 3) {	// starirs goup the floor	
-	
-		}	
-	} else {														// cannot move
+		
+	} else {	// cannot move
 		cout << "Can't move!" << endl;
 	}
+	return false;
 }
 
 void Floor::printFloor() {
