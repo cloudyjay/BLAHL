@@ -4,6 +4,7 @@
 #include <string>
 #include "cell.h"
 #include "character/player/player.h"
+#include "item/gold/gold.h"
 // Floor class is an observer of its members
 // it owns:
 //		X x Y Cells
@@ -21,9 +22,12 @@ class Floor {
 	const std::string MAP_NAME;
 	const static std::string DEFAULT_MAP_NAME;
 	Player *player;
+	const int NUM_GOLDS;
+	Gold **golds;
 
 	bool onFloor(int i, int j);
 	void addNeighbors(int i, int j);
+	void generateRandPos(int &x, int &y);
 
 public:
 	Floor(std::string map_name, int width=79, int height=25);

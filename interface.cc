@@ -1,5 +1,6 @@
 #include "interface.h"
 #include <iostream>
+#include <iomanip>
 #include "character/player/playerfactory.h"
 
 using namespace std;
@@ -14,7 +15,7 @@ void Interface::displayScreen() {
 	game_floors[cur_lvl]->printFloor();
 	cout << "Race: ";	player->printRace();
 	cout << "  Gold: ";	player->printGold();
-	cout << "                     Floor " << cur_lvl+1 << endl;
+	cout << setw(50) << "Floor " << cur_lvl+1 << endl;
 	cout << "HP: ";		player->printHealth();	cout << endl;
 	cout << "Atk: ";	player->printAttack();	cout << endl;
 	cout << "Def: ";	player->printDefence();	cout << endl;

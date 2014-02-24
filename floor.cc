@@ -2,11 +2,18 @@
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
+#include "item/itemfactory.h"
 using namespace std;
 
 const string Floor::DEFAULT_MAP_NAME = "map/default.map";
 
-Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(height), MAP_NAME(map_name), player(0) {
+Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(height), MAP_NAME(map_name),
+													 player(0), NUM_GOLDS(10) {
+	// allocate array of golds	
+	golds = new Gold*[NUM_GOLDS];
+	for(int i=0; i<10; i++) {
+		golds[i] = 0;
+	}
 	// allocate cells
 	cells = new Cell*[HEIGHT];
 	for(int i=0; i<HEIGHT; i++) {
@@ -32,10 +39,17 @@ Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(heig
 }
 
 Floor::~Floor() {
+	// delete golds
+	for(int i=0; i<NUM_GOLDS; i++) {
+		delete golds[i];
+	}
+	delete[] golds;
+	// delete cells
 	for(int i=0; i<HEIGHT; i++) {
 		delete[] cells[i];
 	}
 	delete[] cells;
+
 }
 
 bool Floor::onFloor(int i, int j) {
@@ -69,25 +83,35 @@ void Floor::addNeighbors(int i, int j) {
 							cells[i][j].attachNeighbor(0);
 }
 
+// randomly sets x and y into a valid position
+void Floor::generateRandPos(int &x, int &y) {	
+	do {
+		x = rand() % (WIDTH -2) + 1;	// Default: 1 ~ 77
+		y = rand() % (HEIGHT -2) + 1;	// Default: 1 ~ 23
+	} while(cells[y][x].canMove() != 1);
+}
+
 void Floor::init(Player *player) {
 	if(MAP_NAME != DEFAULT_MAP_NAME) {
 			
 	} else {
 		int x, y;
 		// spawn stairs
-		do {
-			x = rand() % 77 + 1;	// 1 ~ 77
-			y = rand() % 23 + 1;	// 1 ~ 23
-		} while(cells[y][x].canMove() != 1);
+		generateRandPos(x, y);
 		cells[y][x].setType('/');
+
+		ItemFactory item_factory;
+		// generate golds and place randomly
+		for(int i=0; i<NUM_GOLDS; i++) {
+			golds[i] = item_factory.generateGold(6);
+			generateRandPos(x, y);
+			golds[i]->move(x, y);
+			cells[golds[i]->getY()][golds[i]->getX()].setPiece(golds[i]);
+		}
 	
 		// set player and locate it randomly
-		
 		this->player = player;
-		do {
-			x = rand() % 77 + 1;	// 1 ~ 77
-			y = rand() % 23 + 1;	// 1 ~ 23
-		} while(cells[y][x].canMove() != 1);
+		generateRandPos(x, y);
 		player->move(x, y);
 		cells[player->getY()][player->getX()].setPiece(player);
 	}
