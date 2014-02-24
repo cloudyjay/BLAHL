@@ -10,12 +10,13 @@ bool Interface::isDirection(string cmd) {
 	return (cmd == "no" || cmd == "so" || cmd == "ea" || cmd == "we" ||
 			cmd == "ne" || cmd == "nw" || cmd == "se" || cmd == "sw");
 }
+
 void Interface::displayScreen() {
 	// display on screen
 	game_floors[cur_lvl]->printFloor();
 	cout << "Race: ";	player->printRace();
 	cout << "  Gold: ";	player->printGold();
-	cout << setw(50) << "Floor " << cur_lvl+1 << endl;
+	cout << setw(54) << "Floor " << cur_lvl+1 << endl;
 	cout << "HP: ";		player->printHealth();	cout << endl;
 	cout << "Atk: ";	player->printAttack();	cout << endl;
 	cout << "Def: ";	player->printDefence();	cout << endl;
@@ -66,11 +67,15 @@ void Interface::playTurn() {
 		string cmd;
 		cout << "Type your next move: ";
 		cin >> cmd;
-		if(cmd[0] == 'u') {				// use Potion
-			cout << "POTION" << endl;
-			valid_cmd = true;
+		if(cmd == "u") {				// use Potion
+			string dir;
+			cin >> dir;
+			if(isDirection(dir)) {
+				game_floors[cur_lvl]->usePotion(dir);
+				valid_cmd = true;
+			}
 		}
-		else if(cmd[0] == 'a') {		// attack Enemy
+		else if(cmd == "a") {		// attack Enemy
 			cout << "ENEMY" << endl;
 			valid_cmd = true;
 		}
@@ -87,11 +92,11 @@ void Interface::playTurn() {
 			}
 			valid_cmd = true;
 		}
-		else if(cmd[0] == 'r') {		// restart
+		else if(cmd == "r") {		// restart
 			cout << "RESTART" << endl;
 			valid_cmd = true;
 		}
-		else if(cmd[0] == 'q') {		// quit
+		else if(cmd == "q") {		// quit
 			cout << "QUIT" << endl;
 			valid_cmd = true;
 		}	

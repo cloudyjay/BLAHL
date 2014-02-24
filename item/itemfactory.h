@@ -1,12 +1,12 @@
 #ifndef __ITEMFACTORY_H__
 #define __ITEMFACTORY_H__
 
-#include "gold/gold.h"
+#include "item.h"
 
 class ItemFactory {
 public:
-	// n: 6 ~ 9
-	Gold *generateGold(int n);
+	// PRE: n is 0 ~ 9
+	Item *generateItem(int n);
 };
 
 #endif

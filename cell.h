@@ -34,8 +34,9 @@ public:
 	// POST: one of neighbors get filled
 	void attachNeighbor(Cell *neighbor);
 	void setType(char c);
+	GamePiece *getPiece();
 	void setPiece(GamePiece *piece);
-	void releasePiece();
+	GamePiece *releasePiece();
 	void printCell();
 	// PRE: true
 	// POST:	0 - can't move

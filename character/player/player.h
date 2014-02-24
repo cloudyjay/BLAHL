@@ -10,7 +10,7 @@ public:
 	Player(int hp, int atk, int def);
 	virtual	~Player()=0;
 	virtual void printRace()=0;
-	void pick(Gold *gold);
+	void pick(Gold &gold);
 	void printGold();
 };
 

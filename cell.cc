@@ -24,12 +24,19 @@ void Cell::attachNeighbor(Cell *neighbor) {
 void Cell::setType(char c) {
 	type = c;
 }
+
+GamePiece *Cell::getPiece() {
+	return piece;
+}
+
 void Cell::setPiece(GamePiece *piece) {
 	this->piece = piece;
 }
 
-void Cell::releasePiece() {
+GamePiece *Cell::releasePiece() {
+	GamePiece *ret = piece;
 	piece = 0;
+	return ret;
 }
 
 void Cell::printCell() {

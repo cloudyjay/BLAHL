@@ -2,17 +2,24 @@
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 #include "item/itemfactory.h"
 using namespace std;
 
 const string Floor::DEFAULT_MAP_NAME = "map/default.map";
 
 Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(height), MAP_NAME(map_name),
-													 player(0), NUM_GOLDS(10) {
+													 player(0), NUM_GOLDS(10), NUM_POTIONS(10) {
 	// allocate array of golds	
 	golds = new Gold*[NUM_GOLDS];
 	for(int i=0; i<10; i++) {
 		golds[i] = 0;
+	}
+	
+	// allocate array of golds	
+	potions = new Potion*[NUM_POTIONS];
+	for(int i=0; i<10; i++) {
+		potions[i] = 0;
 	}
 	// allocate cells
 	cells = new Cell*[HEIGHT];
@@ -44,6 +51,11 @@ Floor::~Floor() {
 		delete golds[i];
 	}
 	delete[] golds;
+	// delete potions
+	for(int i=0; i<NUM_POTIONS; i++) {
+		delete potions[i];
+	}
+	delete[] potions;
 	// delete cells
 	for(int i=0; i<HEIGHT; i++) {
 		delete[] cells[i];
@@ -96,6 +108,7 @@ void Floor::init(Player *player) {
 			
 	} else {
 		int x, y;
+		srand(time(0));
 		// spawn stairs
 		generateRandPos(x, y);
 		cells[y][x].setType('/');
@@ -103,14 +116,24 @@ void Floor::init(Player *player) {
 		ItemFactory item_factory;
 		// generate golds and place randomly
 		for(int i=0; i<NUM_GOLDS; i++) {
-			golds[i] = item_factory.generateGold(6);
+			golds[i] = dynamic_cast<Gold*>(item_factory.generateItem(6));
 			generateRandPos(x, y);
 			golds[i]->move(x, y);
 			cells[golds[i]->getY()][golds[i]->getX()].setPiece(golds[i]);
 		}
+		
+		// generate potions and place randomly
+		for(int i=0; i<NUM_POTIONS; i++) {
+			int potion_type = rand() % 6;	// 0 ~ 5
+			potions[i] = dynamic_cast<Potion*>(item_factory.generateItem(potion_type));
+			generateRandPos(x, y);
+			potions[i]->move(x, y);
+			cells[potions[i]->getY()][potions[i]->getX()].setPiece(potions[i]);
+		}
 	
 		// set player and locate it randomly
 		this->player = player;
+		player->reset();
 		generateRandPos(x, y);
 		player->move(x, y);
 		cells[player->getY()][player->getX()].setPiece(player);
@@ -152,7 +175,8 @@ bool Floor::movePlayer(string cmd) {
 			return true;
 		}
 		if(cells[y][x].canMove() == 4) {	// golds
-			
+			player->pick(*dynamic_cast<Gold*>(cells[y][x].getPiece()));
+			delete cells[y][x].releasePiece();
 		}
 		cells[player->getY()][player->getX()].releasePiece();
 		player->move(x, y);
@@ -163,6 +187,46 @@ bool Floor::movePlayer(string cmd) {
 		cout << "Can't move!" << endl;
 	}
 	return false;
+}
+
+bool Floor::usePotion(string dir) {
+	int x = player->getX();
+	int y = player->getY();
+	if(dir == "no") {
+		x += 0;		
+		y += -1;
+	} else if(dir == "ne") {
+		x += 1;		
+		y += -1;
+	} else if(dir == "ea") {
+		x += 1;		
+		y += 0;
+	} else if(dir == "se") {
+		x += 1;		
+		y += 1;
+	} else if(dir == "so") {
+		x += 0;		
+		y += 1;
+	} else if(dir == "sw") {
+		x += -1;		
+		y += 1;
+	} else if(dir == "we") {
+		x += -1;		
+		y += 0;
+	} else {
+		x += -1;		
+		y += -1;
+	}
+
+	GamePiece *target = cells[y][x].getPiece();
+	if(target && target->isUsable()) {
+		player->use(*dynamic_cast<Potion*>(target));
+		delete cells[y][x].releasePiece();
+		return true;
+	} else {
+		cout << "Can't use that!" << endl;
+		return false;
+	}
 }
 
 void Floor::printFloor() {
