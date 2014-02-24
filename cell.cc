@@ -10,7 +10,10 @@ Cell::Cell() : type(' '), num_neighbors(0) {
 }
 
 Cell::~Cell() {
-
+	for(int i=0; i < 8; i++) {
+		neighbors[i] = 0;
+	}
+	piece = 0;
 }
 
 void Cell::attachNeighbor(Cell *neighbor) {

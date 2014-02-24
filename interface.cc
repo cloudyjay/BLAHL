@@ -30,7 +30,10 @@ Interface::Interface(string map_name, int max_lvl) : MAX_LVL(max_lvl), cur_lvl(0
 	}
 	// create player
 	PlayerFactory player_factory;
-	player = player_factory.generatePlayer('h');
+	char race='h';
+	cout << "Choose your race! (Human, Elf, Dwarf, Orc): "; 
+	cin >> race;
+	player = player_factory.generatePlayer(race);
 
 	// initialize current floor
 	game_floors[cur_lvl]->init(player);
@@ -44,6 +47,7 @@ Interface::~Interface() {
 		delete game_floors[i];
 	}
 	delete[] game_floors;
+	delete player;
 }
 
 bool Interface::isEnd() {
