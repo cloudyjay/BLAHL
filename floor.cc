@@ -312,7 +312,11 @@ bool Floor::attackEnemy(string dir) {
 	GamePiece *target = cells[y][x].getPiece();
 	if(target && target->isAttackable()) {
 		player->attack(*dynamic_cast<Enemy*>(target));
-		if(dynamic_cast<Enemy*>(target)->isDead()) {
+		if(dynamic_cast<Enemy*>(target)->isDead()) {		// enemy died
+			// drop/pick gold
+			Gold *drop_item = dynamic_cast<Enemy*>(target)->dropItem();
+			player->pick(*drop_item);
+			delete drop_item;
 			for(int i=0; i<NUM_ENEMIES; i++) {
 				if(enemies[i] == target) {
 					delete enemies[i];
@@ -324,7 +328,7 @@ bool Floor::attackEnemy(string dir) {
 		}
 		return true;
 	} else {
-		cout << "Can't use that!" << endl;
+		cout << "Can't attack that!" << endl;
 		return false;
 	}
 }

@@ -8,5 +8,10 @@ bool Enemy::isHostile() {
 	return true;
 }
 
+Gold *Enemy::dropItem() {
+	Gold *ret = new Gold();
+	return ret;
+}
+
 Enemy::~Enemy() {
 }
