@@ -56,17 +56,17 @@ Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(heig
 Floor::~Floor() {
 	// delete golds
 	for(int i=0; i<NUM_GOLDS; i++) {
-		delete golds[i];
+		if(golds[i]) delete golds[i];
 	}
 	delete[] golds;
 	// delete potions
 	for(int i=0; i<NUM_POTIONS; i++) {
-		delete potions[i];
+		if(potions[i]) delete potions[i];
 	}
 	delete[] potions;
 	// delete enemies
 	for(int i=0; i<NUM_ENEMIES; i++) {
-		delete enemies[i];
+		if(enemies[i]) delete enemies[i];
 	}
 	delete[] enemies;
 	// delete cells

@@ -9,5 +9,8 @@ int main(int argc, char *argv[]) {
 	while(!main_game.isEnd()) {
 		main_game.playTurn();
 	}
+	main_game.printScore();
+
+	return 0;
 }
 

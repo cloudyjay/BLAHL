@@ -129,3 +129,10 @@ void Interface::playTurn() {
 	displayScreen();
 }
 
+void Interface::printScore() {
+	cout << "/ ************************************************************************** /" << endl;
+	cout << setw(45) << right << "GAME END" << endl;
+	cout << "/ ************************************************************************** /" << endl;
+	cout << setw(48) << right << "Your Score is: "; player->printGold(); cout << endl;
+	cout << "/ ************************************************************************** /" << endl;
+}

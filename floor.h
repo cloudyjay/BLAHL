@@ -31,7 +31,9 @@ class Floor {
 	const int NUM_ENEMIES;
 	Enemy **enemies;
 
+	// true if [i][j] is within the floor
 	bool onFloor(int i, int j);
+	// add neighbors to a cell[i][j]
 	void addNeighbors(int i, int j);
 	void changeCoordinate(int &x, int &y, std::string dir);
 	void generateRandPos(int &x, int &y);

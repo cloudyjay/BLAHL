@@ -26,6 +26,7 @@ public:
 	~Interface();
 	bool isEnd();
 	void playTurn();
+	void printScore();
 };
 
 #endif
