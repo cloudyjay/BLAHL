@@ -6,6 +6,7 @@
 #include "character/player/player.h"
 #include "item/gold/gold.h"
 #include "item/potion/potion.h"
+#include "character/enemy/enemy.h"
 // Floor class is an observer of its members
 // it owns:
 //		X x Y Cells
@@ -27,6 +28,8 @@ class Floor {
 	Gold **golds;
 	const int NUM_POTIONS;
 	Potion **potions;
+	const int NUM_ENEMIES;
+	Enemy **enemies;
 
 	bool onFloor(int i, int j);
 	void addNeighbors(int i, int j);

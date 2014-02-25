@@ -4,23 +4,31 @@
 #include <cstdlib>
 #include <ctime>
 #include "item/itemfactory.h"
+#include "character/enemy/enemyfactory.h"
 using namespace std;
 
 const string Floor::DEFAULT_MAP_NAME = "map/default.map";
 
 Floor::Floor(string map_name, int width, int height) : WIDTH(width), HEIGHT(height), MAP_NAME(map_name),
-													 player(0), NUM_GOLDS(10), NUM_POTIONS(10) {
+													 player(0), NUM_GOLDS(10), NUM_POTIONS(10), NUM_ENEMIES(20) {
 	// allocate array of golds	
 	golds = new Gold*[NUM_GOLDS];
 	for(int i=0; i<10; i++) {
 		golds[i] = 0;
 	}
 	
-	// allocate array of golds	
+	// allocate array of potions	
 	potions = new Potion*[NUM_POTIONS];
 	for(int i=0; i<10; i++) {
 		potions[i] = 0;
 	}
+
+	// allocate array of enemies	
+	enemies = new Enemy*[NUM_ENEMIES];
+	for(int i=0; i<10; i++) {
+		enemies[i] = 0;
+	}
+
 	// allocate cells
 	cells = new Cell*[HEIGHT];
 	for(int i=0; i<HEIGHT; i++) {
@@ -56,6 +64,11 @@ Floor::~Floor() {
 		delete potions[i];
 	}
 	delete[] potions;
+	// delete enemies
+	for(int i=0; i<NUM_ENEMIES; i++) {
+		delete enemies[i];
+	}
+	delete[] enemies;
 	// delete cells
 	for(int i=0; i<HEIGHT; i++) {
 		delete[] cells[i];
@@ -129,6 +142,15 @@ void Floor::init(Player *player) {
 			generateRandPos(x, y);
 			potions[i]->move(x, y);
 			cells[potions[i]->getY()][potions[i]->getX()].setPiece(potions[i]);
+		}
+
+		// generate enemies and place randomly
+		EnemyFactory enemy_factory;
+		for(int i=0; i<NUM_ENEMIES; i++) {
+			enemies[i] = enemy_factory.generateEnemy('V');
+			generateRandPos(x, y);
+			enemies[i]->move(x, y);
+			cells[enemies[i]->getY()][enemies[i]->getX()].setPiece(enemies[i]);
 		}
 	
 		// set player and locate it randomly
