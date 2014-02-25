@@ -15,7 +15,7 @@ void Interface::displayScreen() {
 	// display on screen
 	game_floors[cur_lvl]->printFloor();
 	cout << "Race: ";	player->printRace();
-	cout << "  Gold: ";	player->printGold();
+	cout << "   Gold: ";	player->printGold();
 	cout << setw(54) << "Floor " << cur_lvl+1 << endl;
 	cout << "HP: ";		player->printHealth();	cout << endl;
 	cout << "Atk: ";	player->printAttack();	cout << endl;
@@ -24,7 +24,7 @@ void Interface::displayScreen() {
 }
 
 /******************* PUBLIC ************************/
-Interface::Interface(string map_name, int max_lvl) : MAX_LVL(max_lvl), cur_lvl(0) {
+Interface::Interface(string map_name, int max_lvl) : MAP_NAME(map_name), MAX_LVL(max_lvl), cur_lvl(0) {
 	// allocate & build floors
 	game_floors = new Floor*[MAX_LVL];
 	for(int i=0; i < MAX_LVL; i++) {
@@ -45,15 +45,20 @@ Interface::Interface(string map_name, int max_lvl) : MAX_LVL(max_lvl), cur_lvl(0
 }
 
 Interface::~Interface() {
-	for(int i=0; i < MAX_LVL; i++) {
-		delete game_floors[i];
-	}
+	cleanFloors();
 	delete[] game_floors;
 	delete player;
 }
 
+void Interface::cleanFloors() {
+	for(int i=0; i < MAX_LVL; i++) {
+		delete game_floors[i];
+	}
+}
+
 bool Interface::isEnd() {
-	if(MAX_LVL <= cur_lvl) {
+	if(MAX_LVL <= cur_lvl || player->isDead()) {
+		cout << "Game End" << endl;
 		return true;
 	}
 	else {
@@ -93,12 +98,17 @@ void Interface::playTurn() {
 			valid_cmd = true;
 		}
 		else if(cmd == "r") {		// restart
-			cout << "RESTART" << endl;
+			cleanFloors();
+			for(int i=0; i < MAX_LVL; i++) {
+				game_floors[i] = new Floor(MAP_NAME);
+			}
+			cur_lvl = 0;
+			game_floors[cur_lvl]->init(player);
 			valid_cmd = true;
 		}
 		else if(cmd == "q") {		// quit
-			cout << "QUIT" << endl;
-			valid_cmd = true;
+			player->defense(200000);
+			return;
 		}	
 		else {
 			cout << "INVALID" << endl;
