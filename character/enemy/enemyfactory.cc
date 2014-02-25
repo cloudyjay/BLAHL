@@ -2,6 +2,13 @@
 using namespace std;
 
 #include "vampire.h"
+#include "werewolf.h"
+#include "goblin.h"
+#include "merchant.h"
+#include "dragon.h"
+#include "phoenix.h"
+#include "troll.h"
+
 
 Enemy *EnemyFactory::generateEnemy(char c) {
 	Enemy *ret;
@@ -9,18 +16,22 @@ Enemy *EnemyFactory::generateEnemy(char c) {
 		ret = new Vampire();
 	}
 	else if(c == 'W') {
+		ret = new Werewolf();
 	}
 	else if(c == 'N') {
+		ret = new Goblin();
 	}
 	else if(c == 'M') {
+		ret = new Merchant();
 	}
 	else if(c == 'D') {
+		ret = new Dragon();
 	}
 	else if(c == 'X') {
+		ret = new Phoenix();
 	}
 	else if(c == 'T') {
-	}
-	else if(c == 'M') {
+		ret = new Troll();	
 	}
 	else {
 		ret = 0;

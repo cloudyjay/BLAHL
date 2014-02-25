@@ -116,6 +116,38 @@ void Floor::generateRandPos(int &x, int &y) {
 	} while(cells[y][x].canMove() != 1);
 }
 
+// convert n to corresponding enemy type
+// n: 0~6
+char Floor::toEnemyType(int n) {
+	char ret = 0;	
+	switch(n) {
+	case 0:
+		ret = 'V';
+		break;
+	case 1:
+		ret = 'W';
+		break;
+	case 2:
+		ret = 'N';
+		break;
+	case 3:
+		ret = 'M';
+		break;
+	case 4:
+		ret = 'X';
+		break;
+	case 5:
+		ret = 'T';
+		break;
+	case 6:
+		ret = 'D';
+		break;
+	default:
+		cout << "EnemyConvert ERROR" << endl;
+	}
+	return ret;
+}
+
 void Floor::init(Player *player) {
 	if(MAP_NAME != DEFAULT_MAP_NAME) {
 			
@@ -144,10 +176,11 @@ void Floor::init(Player *player) {
 			cells[potions[i]->getY()][potions[i]->getX()].setPiece(potions[i]);
 		}
 
-		// generate enemies and place randomly
+		// generate enemies and place randomly (no Dragon)
 		EnemyFactory enemy_factory;
 		for(int i=0; i<NUM_ENEMIES; i++) {
-			enemies[i] = enemy_factory.generateEnemy('V');
+			char enemy_type = toEnemyType(rand() % 6);
+			enemies[i] = enemy_factory.generateEnemy(enemy_type);
 			generateRandPos(x, y);
 			enemies[i]->move(x, y);
 			cells[enemies[i]->getY()][enemies[i]->getX()].setPiece(enemies[i]);
