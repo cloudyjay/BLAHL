@@ -9,7 +9,8 @@ Human::~Human() {}
 void Human::defense(int target_atk) {
 	Character::defense(target_atk);
 	if(isDead()) {
-		
+		Gold bonus = Gold((int)(getGold() * 0.5));
+		pick(bonus);
 	}
 }
 
