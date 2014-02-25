@@ -39,6 +39,20 @@ GamePiece *Cell::releasePiece() {
 	return ret;
 }
 
+bool Cell::hasPlayer() {
+	return 	(piece && piece->isPlayer());
+}
+
+GamePiece *Cell::findPlayer() {
+	GamePiece *ret = 0;
+	for(int i=0; i<8; i++) {
+		if(neighbors[i] && neighbors[i]->hasPlayer()) {
+			ret = neighbors[i]->getPiece();
+		}
+	}
+	return ret;
+}
+
 void Cell::printCell() {
 	if(piece != 0) {
 		piece->printSelf();

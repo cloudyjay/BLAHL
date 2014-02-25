@@ -13,6 +13,7 @@ public:
 	virtual bool isAttackable()=0;
 	virtual bool isUsable()=0;
 	virtual bool isPickable()=0;
+	virtual bool isPlayer();
 };
 
 #endif

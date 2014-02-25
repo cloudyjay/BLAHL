@@ -12,6 +12,10 @@ void Player::pick(Gold &gold) {
 	this->gold += gold.getValue();
 }
 
+bool Player::isPlayer() {
+	return true;
+}
+
 void Player::printGold() {
 	cout << gold;
 

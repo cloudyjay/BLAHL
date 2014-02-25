@@ -37,6 +37,8 @@ public:
 	GamePiece *getPiece();
 	void setPiece(GamePiece *piece);
 	GamePiece *releasePiece();
+	bool hasPlayer();
+	GamePiece *findPlayer();
 	void printCell();
 	// PRE: true
 	// POST:	0 - can't move

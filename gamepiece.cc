@@ -20,3 +20,7 @@ int GamePiece::getX() {
 int GamePiece::getY() {
 	return y;
 }
+
+bool GamePiece::isPlayer() {
+	return false;
+}

@@ -230,8 +230,9 @@ void Floor::tick() {
 		if(enemies[i] && !enemies[i]->isDead()) {	// if not dead
 			int enem_x = enemies[i]->getX();
 			int enem_y = enemies[i]->getY();
-			if(enemies[i]->isHostile()) {	// if hostile
-				
+			if(enemies[i]->isHostile() && cells[enem_y][enem_x].findPlayer()) {	// if hostile && find a player
+				Player *target = dynamic_cast<Player*>(cells[enem_y][enem_x].findPlayer());
+				enemies[i]->attack(*target);
 			} else {
 				int rand_x, rand_y, x, y;
 				do {
