@@ -315,8 +315,10 @@ bool Floor::attackEnemy(string dir) {
 		if(dynamic_cast<Enemy*>(target)->isDead()) {		// enemy died
 			// drop/pick gold
 			Gold *drop_item = dynamic_cast<Enemy*>(target)->dropItem();
-			player->pick(*drop_item);
-			delete drop_item;
+			if(drop_item) {	// if gold is returned
+				player->pick(*drop_item);
+				delete drop_item;
+			}
 			for(int i=0; i<NUM_ENEMIES; i++) {
 				if(enemies[i] == target) {
 					delete enemies[i];

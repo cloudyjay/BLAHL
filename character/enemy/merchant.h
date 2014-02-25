@@ -4,11 +4,12 @@
 #include "enemy.h"
 
 class Merchant: public Enemy {
-	bool hostile;
+	static bool hostile;
 public:
 	Merchant();
 	~Merchant();
 	void defense(int target_atk);
+	Gold *dropItem();
 	bool isHostile();
 };
 

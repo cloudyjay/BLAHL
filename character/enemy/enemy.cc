@@ -15,3 +15,4 @@ Gold *Enemy::dropItem() {
 
 Enemy::~Enemy() {
 }
+

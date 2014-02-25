@@ -10,7 +10,7 @@ using namespace std;
 #include "troll.h"
 
 
-Enemy *EnemyFactory::generateEnemy(char c) {
+Enemy *EnemyFactory::generateEnemy(char c, DragonHoard *treasure) {
 	Enemy *ret;
 	if(c == 'V') {
 		ret = new Vampire();
@@ -25,7 +25,7 @@ Enemy *EnemyFactory::generateEnemy(char c) {
 		ret = new Merchant();
 	}
 	else if(c == 'D') {
-		ret = new Dragon();
+		ret = new Dragon(treasure);
 	}
 	else if(c == 'X') {
 		ret = new Phoenix();
