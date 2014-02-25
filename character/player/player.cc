@@ -16,7 +16,6 @@ bool Player::isPlayer() {
 	return true;
 }
 
-void Player::printGold() {
-	cout << gold;
-
+int Player::getGold() {
+	return gold;
 }

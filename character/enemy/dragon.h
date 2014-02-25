@@ -8,7 +8,6 @@ class Dragon: public Enemy {
 	DragonHoard *treasure;
 public:
 	Dragon(DragonHoard *treasure);
-	
 	Gold *dropItem();
 	~Dragon();
 };

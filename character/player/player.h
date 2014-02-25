@@ -12,7 +12,7 @@ public:
 	virtual void printRace()=0;
 	void pick(Gold &gold);
 	bool isPlayer();
-	void printGold();
+	int getGold();
 };
 
 #endif

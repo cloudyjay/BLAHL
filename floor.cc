@@ -189,7 +189,7 @@ void Floor::init(Player *player) {
 		cells[y][x].setType('/');
 
 		ItemFactory item_factory;
-		// generate golds and place randomly (no DragonHoard)
+		// generate golds and place randomly 
 		for(int i=0; i<NUM_GOLDS; i++) {
 			int gold_type = rand() % 3 + 6;	// 6 ~ 9
 			golds[i] = dynamic_cast<Gold*>(item_factory.generateItem(gold_type));
@@ -207,7 +207,7 @@ void Floor::init(Player *player) {
 			cells[potions[i]->getY()][potions[i]->getX()].setPiece(potions[i]);
 		}
 
-		// generate enemies and place randomly (no Dragon)
+		// generate enemies and place randomly 
 		EnemyFactory enemy_factory;
 		for(int i=0; i<NUM_ENEMIES; i++) {
 			char enemy_type = toEnemyType(rand() % 6);

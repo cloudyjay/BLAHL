@@ -15,7 +15,7 @@ void Interface::displayScreen() {
 	// display on screen
 	game_floors[cur_lvl]->printFloor();
 	cout << "Race: ";	player->printRace();
-	cout << "   Gold: ";	player->printGold();
+	cout << "   Gold: " << player->getGold();
 	cout << setw(54) << "Floor " << cur_lvl+1 << endl;
 	cout << "HP: ";		player->printHealth();	cout << endl;
 	cout << "Atk: ";	player->printAttack();	cout << endl;
@@ -134,6 +134,6 @@ void Interface::printScore() {
 	cout << "/ ************************************************************************** /" << endl;
 	cout << setw(45) << right << "GAME END" << endl;
 	cout << "/ ************************************************************************** /" << endl;
-	cout << setw(48) << right << "Your Score is: "; player->printGold(); cout << endl;
+	cout << setw(48) << right << "Your Score is: " << player->getGold() << endl;
 	cout << "/ ************************************************************************** /" << endl;
 }

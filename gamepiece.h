@@ -6,7 +6,7 @@ class GamePiece {
 	int x, y;
 public:
 	GamePiece(char symbol);
-	void move(int x, int y);
+	virtual void move(int x, int y);
 	void printSelf();
 	int getX();
 	int getY();
