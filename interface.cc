@@ -78,15 +78,24 @@ void Interface::playTurn() {
 			if(isDirection(dir)) {
 				game_floors[cur_lvl]->usePotion(dir);
 				valid_cmd = true;
+			} else {
+				cout << "Invalid cmd!!" << endl;
 			}
 		}
 		else if(cmd == "a") {		// attack Enemy
-			cout << "ENEMY" << endl;
+			string dir;
+			cin >> dir;
+			if(isDirection(dir)) {
+				game_floors[cur_lvl]->attackEnemy(dir);
+				valid_cmd = true;
+			} else {
+				cout << "Invalid cmd!!" << endl;
+			}
 			valid_cmd = true;
 		}
 		else if(isDirection(cmd)) {		// move Player
 			int go_up = game_floors[cur_lvl]->movePlayer(cmd);
-			if(go_up) {
+			if(go_up) {		// go upstairs
 				cur_lvl++;
 				if(cur_lvl < MAX_LVL) {	// still in the game
 					game_floors[cur_lvl]->init(player);	
@@ -94,6 +103,8 @@ void Interface::playTurn() {
 				else {	// game ends
 					return;
 				}		
+			} else {
+							
 			}
 			valid_cmd = true;
 		}

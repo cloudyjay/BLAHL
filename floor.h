@@ -33,6 +33,7 @@ class Floor {
 
 	bool onFloor(int i, int j);
 	void addNeighbors(int i, int j);
+	void changeCoordinate(int &x, int &y, std::string dir);
 	void generateRandPos(int &x, int &y);
 	char toEnemyType(int n);
 public:
@@ -40,8 +41,9 @@ public:
 	~Floor();
 	void init(Player *player);
 	// return true if it hits a stairs
-	bool movePlayer(std::string cmd);
+	bool movePlayer(std::string dir);
 	bool usePotion(std::string dir);
+	bool attackEnemy(std::string dir);
 	void printFloor();
 };
 

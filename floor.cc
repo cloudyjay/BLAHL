@@ -108,6 +108,36 @@ void Floor::addNeighbors(int i, int j) {
 							cells[i][j].attachNeighbor(0);
 }
 
+// sets x and y according to dir
+// dir is a direction
+void Floor::changeCoordinate(int &x, int &y, std::string dir) {
+	if(dir == "no") {
+		x += 0;		
+		y += -1;
+	} else if(dir == "ne") {
+		x += 1;		
+		y += -1;
+	} else if(dir == "ea") {
+		x += 1;		
+		y += 0;
+	} else if(dir == "se") {
+		x += 1;		
+		y += 1;
+	} else if(dir == "so") {
+		x += 0;		
+		y += 1;
+	} else if(dir == "sw") {
+		x += -1;		
+		y += 1;
+	} else if(dir == "we") {
+		x += -1;		
+		y += 0;
+	} else {
+		x += -1;		
+		y += -1;
+	}
+}
+
 // randomly sets x and y into a valid position
 void Floor::generateRandPos(int &x, int &y) {	
 	do {
@@ -195,34 +225,10 @@ void Floor::init(Player *player) {
 	}
 }
 
-bool Floor::movePlayer(string cmd) {
+bool Floor::movePlayer(string dir) {
 	int x = player->getX();
 	int y = player->getY();
-	if(cmd == "no") {
-		x += 0;		
-		y += -1;
-	} else if(cmd == "ne") {
-		x += 1;		
-		y += -1;
-	} else if(cmd == "ea") {
-		x += 1;		
-		y += 0;
-	} else if(cmd == "se") {
-		x += 1;		
-		y += 1;
-	} else if(cmd == "so") {
-		x += 0;		
-		y += 1;
-	} else if(cmd == "sw") {
-		x += -1;		
-		y += 1;
-	} else if(cmd == "we") {
-		x += -1;		
-		y += 0;
-	} else {
-		x += -1;		
-		y += -1;
-	}
+	changeCoordinate(x, y, dir);
 	
 	// check if it's movable cell
 	if(1 <= cells[y][x].canMove() && cells[y][x].canMove() <= 4) {		
@@ -247,36 +253,31 @@ bool Floor::movePlayer(string cmd) {
 bool Floor::usePotion(string dir) {
 	int x = player->getX();
 	int y = player->getY();
-	if(dir == "no") {
-		x += 0;		
-		y += -1;
-	} else if(dir == "ne") {
-		x += 1;		
-		y += -1;
-	} else if(dir == "ea") {
-		x += 1;		
-		y += 0;
-	} else if(dir == "se") {
-		x += 1;		
-		y += 1;
-	} else if(dir == "so") {
-		x += 0;		
-		y += 1;
-	} else if(dir == "sw") {
-		x += -1;		
-		y += 1;
-	} else if(dir == "we") {
-		x += -1;		
-		y += 0;
-	} else {
-		x += -1;		
-		y += -1;
-	}
+	changeCoordinate(x, y, dir);
 
 	GamePiece *target = cells[y][x].getPiece();
 	if(target && target->isUsable()) {
 		player->use(*dynamic_cast<Potion*>(target));
 		delete cells[y][x].releasePiece();
+		return true;
+	} else {
+		cout << "Can't use that!" << endl;
+		return false;
+	}
+}
+
+bool Floor::attackEnemy(string dir) {
+	int x = player->getX();
+	int y = player->getY();
+	changeCoordinate(x, y, dir);
+
+	GamePiece *target = cells[y][x].getPiece();
+	if(target && target->isAttackable()) {
+		player->attack(*dynamic_cast<Enemy*>(target));
+		if(dynamic_cast<Enemy*>(target)->isDead()) {
+			delete cells[y][x].releasePiece();
+		}
+
 		return true;
 	} else {
 		cout << "Can't use that!" << endl;
