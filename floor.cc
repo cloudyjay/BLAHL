@@ -225,6 +225,10 @@ void Floor::init(Player *player) {
 	}
 }
 
+void Floor::tick() {
+
+}
+
 bool Floor::movePlayer(string dir) {
 	int x = player->getX();
 	int y = player->getY();
@@ -237,7 +241,14 @@ bool Floor::movePlayer(string dir) {
 		}
 		if(cells[y][x].canMove() == 4) {	// golds
 			player->pick(*dynamic_cast<Gold*>(cells[y][x].getPiece()));
-			delete cells[y][x].releasePiece();
+			for(int i=0; i<NUM_GOLDS; i++) {
+				if(golds[i] == cells[y][x].getPiece()) {
+					delete golds[i];
+					golds[i]=0;
+					break;
+				}
+			}
+			cells[y][x].releasePiece();
 		}
 		cells[player->getY()][player->getX()].releasePiece();
 		player->move(x, y);
@@ -258,7 +269,14 @@ bool Floor::usePotion(string dir) {
 	GamePiece *target = cells[y][x].getPiece();
 	if(target && target->isUsable()) {
 		player->use(*dynamic_cast<Potion*>(target));
-		delete cells[y][x].releasePiece();
+		for(int i=0; i<NUM_POTIONS; i++) {
+			if(potions[i] == target) {
+				delete potions[i];
+				potions[i]=0;
+				break;
+			}
+		}
+		cells[y][x].releasePiece();
 		return true;
 	} else {
 		cout << "Can't use that!" << endl;
@@ -275,9 +293,15 @@ bool Floor::attackEnemy(string dir) {
 	if(target && target->isAttackable()) {
 		player->attack(*dynamic_cast<Enemy*>(target));
 		if(dynamic_cast<Enemy*>(target)->isDead()) {
-			delete cells[y][x].releasePiece();
+			for(int i=0; i<NUM_ENEMIES; i++) {
+				if(enemies[i] == target) {
+					delete enemies[i];
+					enemies[i]=0;
+					break;
+				}
+			}
+			cells[y][x].releasePiece();
 		}
-
 		return true;
 	} else {
 		cout << "Can't use that!" << endl;

@@ -42,6 +42,7 @@ public:
 	Floor(std::string map_name, int width=79, int height=25);
 	~Floor();
 	void init(Player *player);
+	void tick();
 	// return true if it hits a stairs
 	bool movePlayer(std::string dir);
 	bool usePotion(std::string dir);

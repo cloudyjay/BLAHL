@@ -58,7 +58,6 @@ void Interface::cleanFloors() {
 
 bool Interface::isEnd() {
 	if(MAX_LVL <= cur_lvl || player->isDead()) {
-		cout << "Game End" << endl;
 		return true;
 	}
 	else {
@@ -77,6 +76,7 @@ void Interface::playTurn() {
 			cin >> dir;
 			if(isDirection(dir)) {
 				game_floors[cur_lvl]->usePotion(dir);
+				game_floors[cur_lvl]->tick();
 				valid_cmd = true;
 			} else {
 				cout << "Invalid cmd!!" << endl;
@@ -87,6 +87,7 @@ void Interface::playTurn() {
 			cin >> dir;
 			if(isDirection(dir)) {
 				game_floors[cur_lvl]->attackEnemy(dir);
+				game_floors[cur_lvl]->tick();
 				valid_cmd = true;
 			} else {
 				cout << "Invalid cmd!!" << endl;
@@ -104,7 +105,7 @@ void Interface::playTurn() {
 					return;
 				}		
 			} else {
-							
+				game_floors[cur_lvl]->tick();		
 			}
 			valid_cmd = true;
 		}
