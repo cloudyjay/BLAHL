@@ -189,9 +189,10 @@ void Floor::init(Player *player) {
 		cells[y][x].setType('/');
 
 		ItemFactory item_factory;
-		// generate golds and place randomly
+		// generate golds and place randomly (no DragonHoard)
 		for(int i=0; i<NUM_GOLDS; i++) {
-			golds[i] = dynamic_cast<Gold*>(item_factory.generateItem(6));
+			int gold_type = rand() % 3 + 6;	// 6 ~ 9
+			golds[i] = dynamic_cast<Gold*>(item_factory.generateItem(gold_type));
 			generateRandPos(x, y);
 			golds[i]->move(x, y);
 			cells[golds[i]->getY()][golds[i]->getX()].setPiece(golds[i]);

@@ -1,5 +1,8 @@
 #include "itemfactory.h"
 #include "gold/gold.h"
+#include "gold/smallhoard.h"
+#include "gold/merchanthoard.h"
+#include "gold/dragonhoard.h"
 #include "potion/potion.h"
 using namespace std;
 
@@ -28,10 +31,13 @@ Item *ItemFactory::generateItem(int n) {
 		ret = new Gold();
 		break;
 	case 7:
+		ret = new SmallHoard();
 		break;
 	case 8:
+		ret = new MerchantHoard();
 		break;
 	case 9:
+		ret = new DragonHoard();
 		break;
 	default:
 		ret = 0;
