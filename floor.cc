@@ -226,7 +226,26 @@ void Floor::init(Player *player) {
 }
 
 void Floor::tick() {
-
+	for(int i=0; i<NUM_ENEMIES; i++) {
+		if(enemies[i] && !enemies[i]->isDead()) {	// if not dead
+			int enem_x = enemies[i]->getX();
+			int enem_y = enemies[i]->getY();
+			if(enemies[i]->isHostile()) {	// if hostile
+				
+			} else {
+				int rand_x, rand_y, x, y;
+				do {
+					rand_x = rand() % 3 -1;
+					rand_y = rand() % 3 -1;
+					x = enem_x + rand_x;
+					y = enem_y + rand_y;
+				} while(cells[y][x].canMove() != 1);
+				enemies[i]->move(x, y);
+				cells[enem_y][enem_x].releasePiece();
+				cells[enemies[i]->getY()][enemies[i]->getX()].setPiece(enemies[i]);
+			}
+		}
+	}
 }
 
 bool Floor::movePlayer(string dir) {

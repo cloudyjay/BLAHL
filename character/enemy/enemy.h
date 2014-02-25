@@ -5,6 +5,7 @@
 class Enemy: public Character {
 public:
 	Enemy(char type, int hp, int atk, int def);
+	virtual bool isHostile();
 	~Enemy()=0;
 };
 
