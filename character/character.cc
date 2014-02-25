@@ -47,7 +47,6 @@ void Character::defense(int target_atk) {
 
 void Character::use(Potion &potion) {
 	string potion_type = potion.getType();
-	cout << "Using a potion..." << potion_type << endl;
 	if(potion_type == "RH" || potion_type == "PH") {
 		hp += potion.getEffect();
 		if(MAX_HP < hp) {

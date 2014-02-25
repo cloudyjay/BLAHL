@@ -20,11 +20,12 @@ void Interface::displayScreen() {
 	cout << "HP: ";		player->printHealth();	cout << endl;
 	cout << "Atk: ";	player->printAttack();	cout << endl;
 	cout << "Def: ";	player->printDefence();	cout << endl;
-	cout << "Action: " << endl;
+	cout << "Action: " << action << endl;
 }
 
 /******************* PUBLIC ************************/
-Interface::Interface(string map_name, int max_lvl) : MAP_NAME(map_name), MAX_LVL(max_lvl), cur_lvl(0) {
+Interface::Interface(string map_name, int max_lvl) : MAP_NAME(map_name), MAX_LVL(max_lvl), cur_lvl(0)
+													, action("Game started. Good luck!") {
 	// allocate & build floors
 	game_floors = new Floor*[MAX_LVL];
 	for(int i=0; i < MAX_LVL; i++) {
@@ -33,7 +34,7 @@ Interface::Interface(string map_name, int max_lvl) : MAP_NAME(map_name), MAX_LVL
 	// create player
 	PlayerFactory player_factory;
 	char race='h';
-	cout << "Choose your race! (Human, Elf, Dwarf, Orc): "; 
+	cout << "Choose your race! ('h'uman, 'e'lf, 'd'warf, 'o'rc): "; 
 	cin >> race;
 	player = player_factory.generatePlayer(race);
 
@@ -75,37 +76,53 @@ void Interface::playTurn() {
 			string dir;
 			cin >> dir;
 			if(isDirection(dir)) {
-				game_floors[cur_lvl]->usePotion(dir);
+				if(game_floors[cur_lvl]->usePotion(dir)) {
+					action = "You used a potion.";
+				} else {
+					action = "Cannot use that.";
+				}
 				game_floors[cur_lvl]->tick();
 				valid_cmd = true;
 			} else {
-				cout << "Invalid cmd!!" << endl;
+				action = "Invalid command. Usage: u <direction>";
 			}
 		}
 		else if(cmd == "a") {		// attack Enemy
 			string dir;
 			cin >> dir;
 			if(isDirection(dir)) {
-				game_floors[cur_lvl]->attackEnemy(dir);
+				if(game_floors[cur_lvl]->attackEnemy(dir)) {
+					action = "You attacked an enemy.";
+				} else {
+					action = "Cannot attack that.";
+				}
 				game_floors[cur_lvl]->tick();
 				valid_cmd = true;
 			} else {
-				cout << "Invalid cmd!!" << endl;
+				action = "Invalid command. Usage: a <direction>";
 			}
 			valid_cmd = true;
 		}
 		else if(isDirection(cmd)) {		// move Player
 			int go_up = game_floors[cur_lvl]->movePlayer(cmd);
-			if(go_up) {		// go upstairs
+			if(go_up == 3) {		// go upstairs
 				cur_lvl++;
 				if(cur_lvl < MAX_LVL) {	// still in the game
-					game_floors[cur_lvl]->init(player);	
+					game_floors[cur_lvl]->init(player);
+					action = "You went to one floor up.";
 				}
 				else {	// game ends
 					return;
 				}		
 			} else {
-				game_floors[cur_lvl]->tick();		
+				if(go_up == 2) {	// pick gold
+				action = "You picked a gold.";	
+				} else if(go_up == 1) {		// normal move
+				action = "You moved.";	
+				} else {	// failed to move
+				action = "Cannot move there.";	
+				}
+				game_floors[cur_lvl]->tick();	
 			}
 			valid_cmd = true;
 		}
@@ -116,6 +133,7 @@ void Interface::playTurn() {
 			}
 			cur_lvl = 0;
 			game_floors[cur_lvl]->init(player);
+			action = "Game restarted. Best luck!";
 			valid_cmd = true;
 		}
 		else if(cmd == "q") {		// quit
@@ -123,7 +141,7 @@ void Interface::playTurn() {
 			return;
 		}	
 		else {
-			cout << "INVALID" << endl;
+			action = "Invalid command, wasted a turn.";
 		} 
 	}
 

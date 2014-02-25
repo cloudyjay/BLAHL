@@ -16,6 +16,7 @@ class Interface {
 	int cur_lvl;
 	Floor **game_floors;
 	Player *player;
+	std::string action;
 	// KeyboardIn key_in;
 	// ScreenOut scn_out;
 	bool isDirection(std::string cmd);

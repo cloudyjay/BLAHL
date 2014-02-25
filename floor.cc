@@ -250,7 +250,8 @@ void Floor::tick() {
 	}
 }
 
-bool Floor::movePlayer(string dir) {
+int Floor::movePlayer(string dir) {
+	int ret = 0;
 	int x = player->getX();
 	int y = player->getY();
 	changeCoordinate(x, y, dir);
@@ -258,9 +259,8 @@ bool Floor::movePlayer(string dir) {
 	// check if it's movable cell
 	if(1 <= cells[y][x].canMove() && cells[y][x].canMove() <= 4) {		
 		if(cells[y][x].canMove() == 3) {	// starirs go up the floor
-			return true;
-		}
-		if(cells[y][x].canMove() == 4) {	// golds
+			ret = 3;
+		} else if(cells[y][x].canMove() == 4) {	// golds
 			player->pick(*dynamic_cast<Gold*>(cells[y][x].getPiece()));
 			for(int i=0; i<NUM_GOLDS; i++) {
 				if(golds[i] == cells[y][x].getPiece()) {
@@ -270,16 +270,17 @@ bool Floor::movePlayer(string dir) {
 				}
 			}
 			cells[y][x].releasePiece();
+			ret = 2;
+		} else {	// normal move
+			ret = 1;
 		}
 		cells[player->getY()][player->getX()].releasePiece();
 		player->move(x, y);
 		cells[player->getY()][player->getX()].setPiece(player);
-		
-		
 	} else {	// cannot move
-		cout << "Can't move!" << endl;
+		ret = 0;
 	}
-	return false;
+	return ret;
 }
 
 bool Floor::usePotion(string dir) {

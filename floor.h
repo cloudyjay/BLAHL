@@ -43,8 +43,11 @@ public:
 	~Floor();
 	void init(Player *player);
 	void tick();
-	// return true if it hits a stairs
-	bool movePlayer(std::string dir);
+	// return	0 - failed to move
+	//			1 - normal move
+	//			2 - pick gold
+	// 			3 - go upstairs
+	int movePlayer(std::string dir);
 	bool usePotion(std::string dir);
 	bool attackEnemy(std::string dir);
 	void printFloor();
