@@ -8,9 +8,9 @@ using namespace std;
 #include "dragon.h"
 #include "phoenix.h"
 #include "troll.h"
+class DragonHoard;
 
-
-Enemy *EnemyFactory::generateEnemy(char c, DragonHoard *treasure) {
+Enemy *EnemyFactory::generateEnemy(char c, Gold *treasure) {
 	Enemy *ret;
 	if(c == 'V') {
 		ret = new Vampire();
@@ -25,7 +25,7 @@ Enemy *EnemyFactory::generateEnemy(char c, DragonHoard *treasure) {
 		ret = new Merchant();
 	}
 	else if(c == 'D') {
-		ret = new Dragon(treasure);
+		ret = new Dragon(dynamic_cast<DragonHoard*>(treasure));
 	}
 	else if(c == 'X') {
 		ret = new Phoenix();

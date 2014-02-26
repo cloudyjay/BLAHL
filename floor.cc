@@ -191,11 +191,38 @@ void Floor::init(Player *player) {
 		ItemFactory item_factory;
 		// generate golds and place randomly 
 		for(int i=0; i<NUM_GOLDS; i++) {
-			int gold_type = rand() % 3 + 6;	// 6 ~ 9
-			golds[i] = dynamic_cast<Gold*>(item_factory.generateItem(gold_type));
-			generateRandPos(x, y);
-			golds[i]->move(x, y);
-			cells[golds[i]->getY()][golds[i]->getX()].setPiece(golds[i]);
+			int gold_type = rand() % 8;
+			if(gold_type <= 6) {
+				if(gold_type <= 4) {	// normal gold 5/8
+					golds[i] = dynamic_cast<Gold*>(item_factory.generateItem(6));
+				} else {		// small hoard 2/8
+					golds[i] = dynamic_cast<Gold*>(item_factory.generateItem(7));
+				}
+				generateRandPos(x, y);
+				golds[i]->move(x, y);
+				cells[golds[i]->getY()][golds[i]->getX()].setPiece(golds[i]);
+			} else {			// dragon hoard
+				golds[i] = dynamic_cast<Gold*>(item_factory.generateItem(9));
+				generateRandPos(x, y);
+				golds[i]->move(x, y);
+				cells[golds[i]->getY()][golds[i]->getX()].setPiece(golds[i]);
+				// spawn & assign dragon
+				EnemyFactory enemy_factory;
+				for(int j=0; i<NUM_ENEMIES; i++) {
+					if(!enemies[j]) {	// if not assigned yet
+						enemies[j] = enemy_factory.generateEnemy('D', golds[i]);
+						int rand_x, rand_y, dragon_x, dragon_y;
+						do {
+							rand_x = rand() % 3 -1;
+							rand_y = rand() % 3 -1;
+							dragon_x = golds[i]->getX() + rand_x;
+							dragon_y = golds[i]->getY() + rand_y;
+						} while(cells[dragon_y][dragon_x].canMove() != 1);
+						enemies[j]->move(dragon_x, dragon_y);
+						cells[enemies[j]->getY()][enemies[j]->getX()].setPiece(enemies[j]);
+					}
+				}
+			}
 		}
 		
 		// generate potions and place randomly
@@ -207,14 +234,16 @@ void Floor::init(Player *player) {
 			cells[potions[i]->getY()][potions[i]->getX()].setPiece(potions[i]);
 		}
 
-		// generate enemies and place randomly 
+		// generate enemies and place randomly (No Dragon)
 		EnemyFactory enemy_factory;
 		for(int i=0; i<NUM_ENEMIES; i++) {
-			char enemy_type = toEnemyType(rand() % 6);
-			enemies[i] = enemy_factory.generateEnemy(enemy_type);
-			generateRandPos(x, y);
-			enemies[i]->move(x, y);
-			cells[enemies[i]->getY()][enemies[i]->getX()].setPiece(enemies[i]);
+			if(!enemies[i]) {	// if not assigned yet
+				char enemy_type = toEnemyType(rand() % 6);
+				enemies[i] = enemy_factory.generateEnemy(enemy_type);
+				generateRandPos(x, y);
+				enemies[i]->move(x, y);
+				cells[enemies[i]->getY()][enemies[i]->getX()].setPiece(enemies[i]);
+			}
 		}
 	
 		// set player and locate it randomly
