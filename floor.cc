@@ -263,14 +263,14 @@ void Floor::tick() {
 			if(enemies[i]->isHostile() && cells[enem_y][enem_x].findPlayer()) {	// if hostile && find a player
 				Player *target = dynamic_cast<Player*>(cells[enem_y][enem_x].findPlayer());
 				enemies[i]->attack(*target);
-			} else {
+			} else {		// move enemy
 				int rand_x, rand_y, x, y;
 				do {
 					rand_x = rand() % 3 -1;
 					rand_y = rand() % 3 -1;
 					x = enem_x + rand_x;
 					y = enem_y + rand_y;
-				} while(cells[y][x].canMove() != 1);
+				} while(cells[y][x].canMove() != 1 || !enemies[i]->isAllowed(x, y));
 				enemies[i]->move(x, y);
 				cells[enem_y][enem_x].releasePiece();
 				cells[enemies[i]->getY()][enemies[i]->getX()].setPiece(enemies[i]);

@@ -7,6 +7,7 @@ class Enemy: public Character {
 public:
 	Enemy(char type, int hp, int atk, int def);
 	virtual bool isHostile();
+	virtual bool isAllowed(int x, int y);
 	virtual Gold *dropItem();
 	~Enemy()=0;
 };

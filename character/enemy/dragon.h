@@ -8,6 +8,7 @@ class Dragon: public Enemy {
 	DragonHoard *treasure;
 public:
 	Dragon(DragonHoard *treasure);
+	bool isAllowed(int x, int y);
 	Gold *dropItem();
 	~Dragon();
 };

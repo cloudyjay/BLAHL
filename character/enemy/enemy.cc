@@ -8,6 +8,10 @@ bool Enemy::isHostile() {
 	return true;
 }
 
+bool Enemy::isAllowed(int x, int y) {
+	return true;
+}
+
 Gold *Enemy::dropItem() {
 	Gold *ret = new Gold();
 	return ret;
