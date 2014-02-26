@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -g -Wall -MMD
-EXEC = cc3k							
+EXEC = Rogue							
 SOURCES = ${wildcard *.cc */*.cc */*/*.cc}			
 OBJECTS = ${SOURCES:.cc=.o}
 DEPENDS = ${OBJECTS:.o=.d}
