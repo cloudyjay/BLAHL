@@ -37,7 +37,7 @@ class Floor {
 	void addNeighbors(int i, int j);
 	void changeCoordinate(int &x, int &y, std::string dir);
 	void generateRandPos(int &x, int &y);
-	char toEnemyType(int n);
+
 public:
 	Floor(std::string map_name, int width=79, int height=25);
 	~Floor();

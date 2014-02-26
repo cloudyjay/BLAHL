@@ -146,38 +146,6 @@ void Floor::generateRandPos(int &x, int &y) {
 	} while(cells[y][x].canMove() != 1);
 }
 
-// convert n to corresponding enemy type
-// n: 0~6
-char Floor::toEnemyType(int n) {
-	char ret = 0;	
-	switch(n) {
-	case 0:
-		ret = 'V';
-		break;
-	case 1:
-		ret = 'W';
-		break;
-	case 2:
-		ret = 'N';
-		break;
-	case 3:
-		ret = 'M';
-		break;
-	case 4:
-		ret = 'X';
-		break;
-	case 5:
-		ret = 'T';
-		break;
-	case 6:
-		ret = 'D';
-		break;
-	default:
-		cout << "EnemyConvert ERROR" << endl;
-	}
-	return ret;
-}
-
 void Floor::init(Player *player) {
 	if(MAP_NAME != DEFAULT_MAP_NAME) {
 			
@@ -238,7 +206,21 @@ void Floor::init(Player *player) {
 		EnemyFactory enemy_factory;
 		for(int i=0; i<NUM_ENEMIES; i++) {
 			if(!enemies[i]) {	// if not assigned yet
-				char enemy_type = toEnemyType(rand() % 6);
+				char enemy_type;
+				int r = rand() % 18;
+				if(r <= 4) {		// goblin 5/18
+					enemy_type = 'N';
+				} else if(r <= 8) {	// werewolf 4/18
+					enemy_type = 'W';
+				} else if(r <= 11) {	// vampire 3/18
+					enemy_type = 'V';
+				} else if(r <= 13) {	// troll 2/18
+					enemy_type = 'T';
+				} else if(r <= 15) {	// phoenix 2/18
+					enemy_type = 'X';
+				} else {	// merchant 2/18
+					enemy_type = 'M';
+				}
 				enemies[i] = enemy_factory.generateEnemy(enemy_type);
 				generateRandPos(x, y);
 				enemies[i]->move(x, y);
