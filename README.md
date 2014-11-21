@@ -1,4 +1,4 @@
 Rogue
 =====
-This is Rogue (Video Game) written in C++. It was originally the final assignment of CS 246 at University of Waterloo.
-Please let me know if this violates the academic integrity. 
+This is originally the final assignment of CS 246 for FALL2013 at University of Waterloo.
+Resubmitting this will be caught under the academic integrity of University of Waterloo policies.
